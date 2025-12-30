@@ -1,5 +1,5 @@
 # general-makefile
-General purpose makefile for an easy project management.
+General purpose C makefile for an easy project management.
 
 ---
 
