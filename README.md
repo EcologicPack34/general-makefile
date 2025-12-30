@@ -116,7 +116,7 @@ make help
 ```
 Prints some info related to each target of the makefile.
 
-##Notes
+## Notes
 
 This makefile has been tested in Linux based systems only (more precisely Ubuntu and Arch linux).
 The compiler used for testing is gcc, other compilers haven't been tested.
