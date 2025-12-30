@@ -19,12 +19,19 @@ General purpose makefile for an easy project management.
 
 ## Directory Structure
 .
+
 ├── include/ # Header files
+
 ├── src/ # Source files
+
 ├── obj/ # Object files (auto-generated)
+
 ├── lib/ # Libraries (.a) to link
+
 ├── build/ # Executable output
+
 ├── docs/ # Documentation
+
 └── Makefile # This Makefile
 
 All directories are automatically created by the `init` target.
