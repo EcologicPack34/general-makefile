@@ -84,3 +84,39 @@ Can also be called in the following way:
 ```bash
 make run_args RUN_ARGS="arg1 arg2"
 ```
+
+### Deleting files
+
+```bash
+make clean
+```
+Deletes all object and dependency files.
+
+```bash
+make clean_exe
+```
+Deletes executable file.
+
+```bash
+make clean
+```
+Deletes all object and dependency files and the executable file.
+
+```bash
+make delete_all
+```
+Deletes **ALL** the project.
+This includes every single file and folder included in the original directories created when initializing project.
+
+### Help
+
+
+```bash
+make help
+```
+Prints some info related to each target of the makefile.
+
+##Notes
+
+This makefile has been tested in Linux based systems only (more precisely Ubuntu and Arch linux).
+The compiler used for testing is gcc, other compilers haven't been tested.
