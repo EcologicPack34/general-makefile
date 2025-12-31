@@ -150,6 +150,7 @@ Prints some info related to each target of the makefile.
 ---
 
 ## Planned features
+- More testing
 - Support for tests
 - Build modes (example: debug)
 - Versioning
