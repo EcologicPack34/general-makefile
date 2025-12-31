@@ -11,6 +11,8 @@ SRC_DIR := src
 OBJ_DIR := obj
 INCLUDE_DIR := include
 
+SRC_EXTENSION = .c
+
 #directory for compiled libraries
 LIB_DIR := lib
 
@@ -28,8 +30,8 @@ DIRS = $(INCLUDE_DIR) $(SRC_DIR) $(OBJ_DIR) $(LIB_DIR) $(BUILD_DIR) docs
 #====== SOURCES =======
 
 #Search source files and create paths for objects and dependencies
-SRC := $(if $(wildcard $(SRC_DIR)), $(shell find $(SRC_DIR) -name "*.c"))
-OBJ := $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+SRC := $(if $(wildcard $(SRC_DIR)), $(shell find $(SRC_DIR) -name "*$(SRC_EXTENSION)" -printf '%T@ %p\n' | sort -nr | cut -d' ' -f2-))
+OBJ := $(SRC:$(SRC_DIR)/%$(SRC_EXTENSION)=$(OBJ_DIR)/%.o)
 DEPS := $(OBJ:.o=.d)
 
 #Search library files and create compiler flags for them
@@ -56,17 +58,17 @@ build_clean: clean_all build
 $(BUILD_DIR)/$(EXE_NAME): $(OBJ)
 	$(COMPILER) $(CFLAGS) $(INCLUDES) $^ $(LIB_PATHS) $(LIB_NAMES) -o $(BUILD_DIR)/$(EXE_NAME) 
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%$(SRC_EXTENSION)
 	@mkdir -p $(dir $@)
 	$(COMPILER) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
 
 
-## init: Initializes project structure and creates a main.c file
+## init: Initializes project structure and creates a main file
 init:
-	@if [ ! -f "$(SRC_DIR)/main.c" ]; then \
+	@if [ ! -f "$(SRC_DIR)/main.$(SRC_EXTENSION)" ]; then \
 		echo "Initializing project..."; \
 		mkdir -p $(DIRS); \
-		printf '#include <stdio.h>\n\nint main() {\n\tprintf("Hello, World!\\n");\n\n\treturn 0;\n}\n' > ./$(SRC_DIR)/main.c; \
+		printf '#include <stdio.h>\n\nint main() {\n\tprintf("Hello, World!\\n");\n\n\treturn 0;\n}\n' > ./$(SRC_DIR)/main$(SRC_EXTENSION); \
 		echo "Project Initialized"; \
 	else \
 		echo "Project already initialized. Skipping."; \
