@@ -22,10 +22,16 @@ EXT_LIBS :=
 
 BUILD_DIR := build
 
-RUN_ARGS := 
+RUN_ARGS ?= 
 
 #other variables
 DIRS = $(INCLUDE_DIR) $(SRC_DIR) $(OBJ_DIR) $(LIB_DIR) $(BUILD_DIR) docs
+
+#===== INSTALL =====
+
+INSTALL_DIR_PREFIX ?= $$HOME/.local
+INSTALL_BIN_DIR := $(INSTALL_DIR_PREFIX)/bin
+
 
 #====== SOURCES =======
 
@@ -106,6 +112,27 @@ run_args:
 	@printf "Running app with args $(RUN_ARGS)...\n"
 	./$(BUILD_DIR)/$(EXE_NAME) $(RUN_ARGS)
 
+## install: Compiles and installs app to specified directory
+install: build_clean
+	@if [ ! -f "$(INSTALL_BIN_DIR)/$(EXE_NAME)" ]; then \
+		echo "Installing $(EXE_NAME) to $(INSTALL_BIN_DIR)"; \
+		install -d $(INSTALL_BIN_DIR); \
+		install -m 755 $(BUILD_DIR)/$(EXE_NAME) $(INSTALL_BIN_DIR); \
+	else \
+		echo "$(EXE_NAME) already installed"; \
+	fi
+
+## install_path: Adds path to .bashrc file.
+install_path:
+	@grep -qxF 'export PATH="$(INSTALL_BIN_DIR):$$PATH"' $$HOME/.bashrc || \
+	echo 'export PATH="$(INSTALL_BIN_DIR):$$PATH"' >> $$HOME/.bashrc
+	@echo "Added to ~/.bashrc. Reload with: source ~/.bashrc"
+
+## uninstall: Removes app from specified directory
+uninstall: 
+	@echo "Removing $(INSTALL_BIN_DIR)/$(EXE_NAME)"
+	@rm -rf $(INSTALL_BIN_DIR)
+
 ## help: Show this help message
 help:
 	@echo "Available targets:"
@@ -114,4 +141,4 @@ help:
 #=== DEPS ===
 -include $(DEPS)
 
-.PHONY: init delete_all clean clean_exe clean_all run run_args help
+.PHONY: init delete_all clean clean_exe clean_all run run_args help install install_path uninstall
