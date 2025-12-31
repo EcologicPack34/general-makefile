@@ -1,4 +1,12 @@
-#=====VARIABLES - Config=======
+# general-makefile
+#
+# Copyright (c) 2025 Daniel Gómez Rodríguez
+#
+# This Makefile is licensed under the MIT License.
+# See LICENSE file for details.
+# SPDX-License-Identifier: MIT
+
+#===== VARIABLES - Config =======
 COMPILER := gcc
 
 CFLAGS := -Wall
