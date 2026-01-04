@@ -113,7 +113,7 @@ make clean_exe
 Deletes executable file.
 
 ```bash
-make clean
+make clean_all
 ```
 Deletes all object and dependency files and the executable file.
 
